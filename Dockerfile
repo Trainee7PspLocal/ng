@@ -1,13 +1,14 @@
-# Stage 1
-FROM node:latest as node
-WORKDIR /app
+FROM beevelop/ionic:latest AS ionic
+# Create app directory
+WORKDIR /usr/src/app
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY package*.json ./
+RUN npm ci
+# Bundle app source
 COPY . .
-RUN npm install
-RUN npm run start
-# Stage 2
+RUN ionic build
+## Run 
 FROM nginx:alpine
-COPY --from=node /app/dist/ng /usr/share/nginx/html
-
-EXPOSE 8080
-COPY . .
-CMD ["ng", "serve"]
+#COPY www /usr/share/nginx/html
+COPY --from=ionic  /usr/src/app/www /usr/share/nginx/html

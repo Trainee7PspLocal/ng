@@ -1,0 +1,15 @@
+# forntend
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: udagram-frontend
+  labels:
+    run: udagram-frontend
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: udagram-frontend
